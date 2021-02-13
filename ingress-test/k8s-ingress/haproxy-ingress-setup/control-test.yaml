@@ -1,0 +1,29 @@
+#apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1beta1
+#apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+#  annotations:
+#    kubernetes.io/ingress.class: haproxy
+  name: my-ingress
+spec:
+  tls:
+    - hosts:
+      - example.com
+      # This assumes tls-secret exists adn the SSL
+      # certificate contains a CN for test.apisec.com
+      secretName: tls-secret
+
+  rules:
+    - host: example.com
+      http:
+        paths:
+          - backend:
+              serviceName: fx-control-plane
+              servicePort: 8080
+#    - host: dog.example.com
+#      http:
+#        paths:
+#          - backend:
+#              serviceName: dogpic-service
+#              servicePort: 3000
